@@ -40,6 +40,7 @@
     }
   ],
   "publish": {
+    "thumbOffsetMs": 18000,
     "captionTemplate": "Stres ngitung billing manual? Property ERP otomatisasi tagihan tenant Anda. Hemat 30+ jam per bulan.\n\nKlik link di bio.\n\n#PropertyManagement #ERP #SaaS #Indonesia #PropertyTech #BillingAutomation #VCloudProperty\n\n---\nMusic by SKAI ISYOURGOD (royalty-free, attribution required)"
   }
 }

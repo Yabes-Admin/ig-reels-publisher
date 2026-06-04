@@ -48,6 +48,10 @@ if (skipPublish) {
 console.log('\n[6/6] publish to Instagram');
 const spec = JSON.parse(await readFile(SPEC, 'utf8'));
 const caption = process.env.CAPTION_OVERRIDE || spec.publish.captionTemplate;
-const result = await publishReel({ videoUrl: url, caption });
+const result = await publishReel({
+  videoUrl: url,
+  caption,
+  thumbOffsetMs: spec.publish.thumbOffsetMs
+});
 
 console.log(`\n✓ Reel published: media_id=${result.mediaId}, release=${tag}`);

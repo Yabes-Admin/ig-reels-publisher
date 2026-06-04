@@ -22,20 +22,22 @@ async function gget(path, params) {
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-export async function publishReel({ videoUrl, caption }) {
+export async function publishReel({ videoUrl, caption, thumbOffsetMs }) {
   const igUserId = process.env.IG_USER_ID;
   const token = process.env.IG_ACCESS_TOKEN;
   if (!igUserId) throw new Error('IG_USER_ID not set');
   if (!token) throw new Error('IG_ACCESS_TOKEN not set');
 
   // 1. Create container
-  console.log('graph: create REELS container');
-  const created = await gpost(`${igUserId}/media`, {
+  console.log(`graph: create REELS container${thumbOffsetMs != null ? ` (thumb @ ${thumbOffsetMs}ms)` : ''}`);
+  const params = {
     media_type: 'REELS',
     video_url: videoUrl,
     caption,
     access_token: token
-  });
+  };
+  if (thumbOffsetMs != null) params.thumb_offset = String(thumbOffsetMs);
+  const created = await gpost(`${igUserId}/media`, params);
   const creationId = created.id;
   console.log(`  creation_id=${creationId}`);
 
