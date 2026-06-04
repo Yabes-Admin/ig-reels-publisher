@@ -1,0 +1,19 @@
+{
+  "name": "ig-reels-publisher",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Automated Instagram Reels rendering + publishing pipeline (ffmpeg + edge-tts + Graph API).",
+  "scripts": {
+    "captions": "node src/captions.js",
+    "tts": "node src/tts.js",
+    "render": "node src/render.js",
+    "mux": "node src/mux.js",
+    "build": "node src/index.js --no-upload --no-publish",
+    "build-upload": "node src/index.js --no-publish",
+    "publish": "node src/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

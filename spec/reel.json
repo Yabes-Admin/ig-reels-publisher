@@ -1,0 +1,45 @@
+{
+  "duration": 24,
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "voice": {
+    "provider": "edge",
+    "edge": { "voice": "id-ID-ArdiNeural", "rate": "-5%" },
+    "azure": { "voice": "id-ID-ArdiNeural", "rate": "-5%" }
+  },
+  "music": {
+    "file": "assets/music.mp3",
+    "volume": 0.22,
+    "duckUnderVo": true
+  },
+  "scenes": [
+    {
+      "id": 1,
+      "image": "assets/scene1.png",
+      "start": 0,
+      "end": 8,
+      "caption": "Stres hitung tagihan 500 tenant secara manual?",
+      "vo": "Masih stres ngitung tagihan listrik dan air lima ratus tenant secara manual tiap bulan?"
+    },
+    {
+      "id": 2,
+      "image": "assets/scene2.png",
+      "start": 8,
+      "end": 16,
+      "caption": "Satu klik dengan Property ERP, tagihan auto-kirim!",
+      "vo": "Pake Property ERP! Cukup satu klik, tagihan otomatis kirim via WhatsApp."
+    },
+    {
+      "id": 3,
+      "image": "assets/scene3.png",
+      "start": 16,
+      "end": 24,
+      "caption": "Hemat 30+ jam operasional. Klik link di bio!",
+      "vo": "Hemat waktu tiga puluh jam lebih per bulan. Klik link di bio kami untuk download checklist gratis."
+    }
+  ],
+  "publish": {
+    "captionTemplate": "Stres ngitung billing manual? Property ERP otomatisasi tagihan tenant Anda. Hemat 30+ jam per bulan.\n\nKlik link di bio.\n\n#PropertyManagement #ERP #SaaS #Indonesia #PropertyTech #BillingAutomation #VCloudProperty\n\n---\nMusic by SKAI ISYOURGOD (royalty-free, attribution required)"
+  }
+}

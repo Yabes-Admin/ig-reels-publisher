@@ -1,0 +1,75 @@
+name: Post IG Reel
+
+on:
+  schedule:
+    - cron: '0 2 * * *'   # 09:00 WIB daily (UTC+7). Disable by deleting this line.
+  workflow_dispatch:
+    inputs:
+      caption_override:
+        description: 'Optional caption override (leave blank to use spec/reel.json)'
+        required: false
+        default: ''
+      skip_publish:
+        description: 'Build + upload but do not publish to IG'
+        required: false
+        default: 'false'
+
+permissions:
+  contents: write   # needed for gh release create
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python (for edge-tts)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install system deps (ffmpeg + fonts)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg fonts-inter fonts-noto fonts-noto-color-emoji
+          fc-cache -f
+
+      - name: Install edge-tts
+        run: pip install --no-cache-dir edge-tts
+
+      - name: Install npm deps
+        run: npm ci || npm install
+
+      - name: Run pipeline
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
+          CAPTION_OVERRIDE: ${{ github.event.inputs.caption_override }}
+        run: |
+          if [ "${{ github.event.inputs.skip_publish }}" = "true" ]; then
+            node src/index.js --no-publish
+          else
+            node src/index.js
+          fi
+
+      - name: Upload artifacts (for debug / preview)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reel-output-${{ github.run_id }}
+          path: |
+            dist/out.mp4
+            dist/captions.ass
+          retention-days: 7

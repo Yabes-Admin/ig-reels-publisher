@@ -1,0 +1,54 @@
+name: Refresh IG Long-Lived Token
+
+# Long-lived IG/Facebook tokens expire after 60 days. This refreshes weekly to
+# keep one rolling 60-day window indefinitely. Run manually once to seed.
+#
+# Requires existing secret IG_ACCESS_TOKEN (will be rotated). Stores the new
+# token via the GitHub API. Needs a PAT (classic, repo+admin:repo_hook) stored
+# as GH_PAT_FOR_SECRETS — the default GITHUB_TOKEN cannot update Secrets.
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'   # 08:00 WIB every Monday
+  workflow_dispatch:
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refresh long-lived token
+        env:
+          CURRENT_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          APP_ID: ${{ secrets.META_APP_ID }}
+          APP_SECRET: ${{ secrets.META_APP_SECRET }}
+          GH_PAT: ${{ secrets.GH_PAT_FOR_SECRETS }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -e
+          NEW=$(curl -fsS "https://graph.facebook.com/v21.0/oauth/access_token?grant_type=fb_exchange_token&client_id=${APP_ID}&client_secret=${APP_SECRET}&fb_exchange_token=${CURRENT_TOKEN}" | jq -r '.access_token')
+          if [ -z "$NEW" ] || [ "$NEW" = "null" ]; then
+            echo "Token refresh failed"
+            exit 1
+          fi
+          echo "Got new token (length=${#NEW})"
+
+          # Update repo secret via GH API. Encrypts with sodium per docs.
+          KEY_JSON=$(curl -fsS -H "Authorization: token $GH_PAT" "https://api.github.com/repos/$REPO/actions/secrets/public-key")
+          KEY=$(echo "$KEY_JSON" | jq -r .key)
+          KEY_ID=$(echo "$KEY_JSON" | jq -r .key_id)
+
+          pip install --quiet pynacl
+          ENC=$(python3 -c "
+import base64, sys
+from nacl import encoding, public
+pk = public.PublicKey('$KEY'.encode(), encoding.Base64Encoder())
+sb = public.SealedBox(pk)
+print(base64.b64encode(sb.encrypt(b'$NEW')).decode())
+")
+          curl -fsS -X PUT \
+            -H "Authorization: token $GH_PAT" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/$REPO/actions/secrets/IG_ACCESS_TOKEN" \
+            -d "{\"encrypted_value\":\"$ENC\",\"key_id\":\"$KEY_ID\"}"
+
+          echo "IG_ACCESS_TOKEN secret updated"
