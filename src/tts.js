@@ -12,10 +12,11 @@ function run(cmd, args) {
 
 async function ttsEdge(text, voice, rate, outPath) {
   // edge-tts is a python CLI installed via pip. Free, no key, unofficial.
-  // Args: --voice <name> --rate <pct> --text <str> --write-media <file>
+  // Rate must use `--rate=VALUE` (not space-separated) because values like
+  // `-5%` start with `-` and argparse otherwise treats them as flags.
   await run('edge-tts', [
     '--voice', voice,
-    '--rate', rate,
+    `--rate=${rate}`,
     '--text', text,
     '--write-media', outPath
   ]);
