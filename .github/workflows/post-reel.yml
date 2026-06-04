@@ -1,8 +1,8 @@
 name: Post IG Reel
 
 on:
-  schedule:
-    - cron: '0 2 * * *'   # 09:00 WIB daily (UTC+7). Disable by deleting this line.
+  # schedule:
+  #   - cron: '0 2 * * *'   # 09:00 WIB daily. Re-enable after first successful manual run.
   workflow_dispatch:
     inputs:
       caption_override:
