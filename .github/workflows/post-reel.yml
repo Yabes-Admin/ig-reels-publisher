@@ -21,6 +21,12 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # Branch → Environment routing.
+    # main    → production (@vcloudproperty)
+    # any other branch (e.g. staging) → sandbox (@dump.virtual)
+    # Environment-level secrets (IG_USER_ID, IG_ACCESS_TOKEN, FB_PAGE_ID)
+    # override repo-level secrets of the same name.
+    environment: ${{ github.ref_name == 'main' && 'production' || 'sandbox' }}
 
     steps:
       - name: Checkout
