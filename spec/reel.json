@@ -5,42 +5,42 @@
   "height": 1920,
   "voice": {
     "provider": "edge",
-    "edge": { "voice": "id-ID-GadisNeural", "rate": "-2%" },
-    "azure": { "voice": "id-ID-GadisNeural", "rate": "-2%" }
+    "edge": { "voice": "id-ID-ArdiNeural", "rate": "-5%" },
+    "azure": { "voice": "id-ID-ArdiNeural", "rate": "-5%" }
   },
   "music": {
     "file": "assets/music.mp3",
-    "volume": 0.18,
+    "volume": 0.22,
     "duckUnderVo": true
   },
   "scenes": [
     {
       "id": 1,
-      "image": "assets/cecilia_intro.png",
+      "image": "assets/scene1.png",
       "start": 0,
-      "end": 5,
-      "caption": "Cecilia — AI Sales Agent",
-      "vo": "Halo, saya Cecilia, AI Sales Agent dari vCloud Property."
+      "end": 8,
+      "caption": "Stres hitung tagihan 500 tenant secara manual?",
+      "vo": "Masih stres ngitung tagihan listrik dan air lima ratus tenant secara manual tiap bulan?"
     },
     {
       "id": 2,
-      "image": "assets/scene2_tablet_flipped.png",
-      "start": 5,
-      "end": 19,
-      "caption": "200+ perusahaan properti Indonesia pilih kami",
-      "vo": "Mengapa lebih dari dua ratus perusahaan properti di Indonesia memilih kami? VCloud Property terintegrasi tiga puluh modul lebih, dirancang sesuai regulasi Indonesia, unlimited user, dan dukungan tim dedicated."
+      "image": "assets/scene2.png",
+      "start": 8,
+      "end": 16,
+      "caption": "Satu klik dengan Property ERP, tagihan auto-kirim!",
+      "vo": "Pake Property ERP! Cukup satu klik, tagihan otomatis kirim via WhatsApp."
     },
     {
       "id": 3,
-      "image": "assets/cecilia_cta.png",
-      "start": 19,
+      "image": "assets/scene3.png",
+      "start": 16,
       "end": 24,
-      "caption": "Klik link di bio — setup demo hari ini",
-      "vo": "Mau coba sendiri? Klik link di bio, saya bantu setup demo Anda hari ini."
+      "caption": "Hemat 30+ jam operasional. Klik link di bio!",
+      "vo": "Hemat waktu tiga puluh jam lebih per bulan. Klik link di bio kami untuk download checklist gratis."
     }
   ],
   "publish": {
-    "thumbOffsetMs": 1500,
-    "captionTemplate": "Halo, saya Cecilia — AI Sales Agent dari vCloud Property.\n\nMengapa lebih dari 200 perusahaan properti di Indonesia memilih kami? VCloud Property terintegrasi 30 modul lebih, dirancang sesuai regulasi Indonesia, unlimited user, dan dukungan tim dedicated.\n\nMau coba sendiri? Klik link di bio — saya bantu setup demo Anda hari ini.\n\n#PropertyManagement #ERP #SaaS #Indonesia #PropertyTech #VCloudProperty #AISalesAgent #Cecilia\n\n---\nMusic by SKAI ISYOURGOD (royalty-free, attribution required)"
+    "thumbOffsetMs": 18000,
+    "captionTemplate": "Stres ngitung billing manual? Property ERP otomatisasi tagihan tenant Anda. Hemat 30+ jam per bulan.\n\nKlik link di bio.\n\n#PropertyManagement #ERP #SaaS #Indonesia #PropertyTech #BillingAutomation #VCloudProperty\n\n---\nMusic by SKAI ISYOURGOD (royalty-free, attribution required)"
   }
 }
